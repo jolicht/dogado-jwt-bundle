@@ -1,0 +1,9 @@
+services:
+
+
+  Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory:
+    arguments:
+      - '@Symfony\Component\HttpFoundation\RequestStack'
+
+  Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayload:
+    factory: '@Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory'
