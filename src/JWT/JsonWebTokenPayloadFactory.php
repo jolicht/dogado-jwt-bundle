@@ -41,9 +41,11 @@ final class JsonWebTokenPayloadFactory
 
         $payloadContent = json_decode($base64DecodedPayload, true);
         Assert::isArray($payloadContent, 'Cannot json decode payload.');
+        Assert::isArray($payloadContent['user']);
 
         return new JsonWebTokenPayload(
-            (string) $payloadContent['sub']
+            subject: (string) $payloadContent['sub'],
+            user: User::fromArray($payloadContent['user'])
         );
     }
 }

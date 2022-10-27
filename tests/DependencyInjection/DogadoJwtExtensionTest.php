@@ -15,14 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class DogadoJwtExtensionTest extends TestCase
 {
-
-    public function test_load_(): void
+    public function testLoad(): void
     {
         $extension = new DogadoJwtExtension();
         $containerBuilder = new ContainerBuilder();
         $config = [];
         $extension->load($config, $containerBuilder);
-        
+
         $this->assertTrue($containerBuilder->has(JsonWebTokenPayloadFactory::class));
         $this->assertTrue($containerBuilder->has(JsonWebTokenPayload::class));
     }
