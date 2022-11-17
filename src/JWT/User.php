@@ -2,13 +2,17 @@
 
 namespace Jolicht\DogadoJwtBundle\JWT;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Webmozart\Assert\Assert;
 
 /**
  * @psalm-immutable
  */
-final class User
+final class User implements UserInterface
 {
+    /**
+     * @param string[] $roles
+     */
     public function __construct(
         private readonly string $id,
         private readonly string $name,
@@ -22,6 +26,7 @@ final class User
     {
         Assert::isArray($data['roles']);
         Assert::isArray($data['client']);
+        Assert::allString($data['roles']);
 
         return new self(
             id: (string) $data['id'],
@@ -29,6 +34,15 @@ final class User
             roles: $data['roles'],
             client: Client::fromArray($data['client'])
         );
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): string
@@ -41,6 +55,9 @@ final class User
         return $this->name;
     }
 
+    /**
+     * @return string[]
+     */
     public function getRoles(): array
     {
         return $this->roles;
@@ -49,5 +66,10 @@ final class User
     public function getClient(): Client
     {
         return $this->client;
+    }
+
+    public function getTenant(): Tenant
+    {
+        return $this->getClient()->getTenant();
     }
 }

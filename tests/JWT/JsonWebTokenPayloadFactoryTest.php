@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace JWT;
 
-use function base64_encode;
-
 use Jolicht\DogadoJwtBundle\JWT\Client;
 use Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayload;
 use Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory;
@@ -58,12 +56,9 @@ class JsonWebTokenPayloadFactoryTest extends TestCase
         $this->assertSame('dogado GmbH', $tenant->getName());
     }
 
-    public function testInvokeRequestHeaderHasNoAuthorizationKeyThrowsInvalidArgumentException(): void
+    public function testInvokeRequestHeaderHasNoAuthorizationKeyReturnsNull(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Authorization header not found.');
-
-        $this->factory->__invoke();
+        $this->assertNull($this->factory->__invoke());
     }
 
     public function testInvokeTokenHasNot3PartsThrowsInvalidArgumentException(): void
@@ -90,7 +85,7 @@ class JsonWebTokenPayloadFactoryTest extends TestCase
     public function testInvokeCannotDecodePayloadThrowsInvalidArgumentException(): void
     {
         $encodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.'.
-            base64_encode('"sub":"1234567890","name":"John Doe","iat":1516239022}').'.'.
+            \base64_encode('"sub":"1234567890","name":"John Doe","iat":1516239022}').'.'.
             'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
         $this->request->headers->set('authorization', 'Bearer '.$encodedToken);
 

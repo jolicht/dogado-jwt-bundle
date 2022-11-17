@@ -1,9 +1,23 @@
 services:
 
 
+  Jolicht\DogadoJwtBundle\Security\UserProvider: ~
+
+  Jolicht\DogadoJwtBundle\JWT\PayloadFactory:
+    class: 'Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory'
+
   Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory:
     arguments:
       - '@Symfony\Component\HttpFoundation\RequestStack'
 
-  Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayload:
-    factory: '@Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory'
+  Jolicht\DogadoJwtBundle\EventListener\SetUserKernelRequestEventListener:
+    arguments:
+      - '@Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory'
+      - '@Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
+
+    tags:
+      - {
+        name: kernel.event_listener,
+        event: kernel.request,
+        priority: 12 # right before security listener of symfony/security-bundle (priority 8)
+      }

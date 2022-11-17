@@ -20,7 +20,8 @@
         "symfony/framework-bundle": "^6.1",
         "phpunit/phpunit": "^9.5",
         "webmozart/assert": "^1.11",
-        "symfony/yaml": "^6.1"
+        "symfony/yaml": "^6.1",
+        "symfony/security-bundle": "^6.1"
     },
     "scripts": {
         "test": "./vendor/bin/phpunit",

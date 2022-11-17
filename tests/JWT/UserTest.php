@@ -42,6 +42,11 @@ class UserTest extends TestCase
         $this->assertSame('1c963442-ae30-4fca-85c2-c4a4287e040e', $this->user->getId());
     }
 
+    public function testGetUserIdentifier(): void
+    {
+        $this->assertSame('testUsername', $this->user->getUserIdentifier());
+    }
+
     public function testGetName(): void
     {
         $this->assertSame('testUsername', $this->user->getName());
@@ -55,6 +60,11 @@ class UserTest extends TestCase
     public function testGetClient(): void
     {
         $this->assertSame($this->client, $this->user->getClient());
+    }
+
+    public function testGetTenant(): void
+    {
+        $this->assertSame($this->tenant, $this->user->getTenant());
     }
 
     public function testFromArray(): void
