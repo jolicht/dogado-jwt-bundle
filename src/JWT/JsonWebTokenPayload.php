@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Jolicht\DogadoJwtBundle\JWT;
 
+use Jolicht\DogadoUser\Client;
+use Jolicht\DogadoUser\Tenant;
+use Jolicht\DogadoUser\User;
+
 final class JsonWebTokenPayload
 {
     public function __construct(

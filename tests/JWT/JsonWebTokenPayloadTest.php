@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace JWT;
 
-use Jolicht\DogadoJwtBundle\JWT\Client;
 use Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayload;
-use Jolicht\DogadoJwtBundle\JWT\Tenant;
-use Jolicht\DogadoJwtBundle\JWT\User;
+use Jolicht\DogadoUser\Client;
+use Jolicht\DogadoUser\ClientId;
+use Jolicht\DogadoUser\Tenant;
+use Jolicht\DogadoUser\TenantId;
+use Jolicht\DogadoUser\User;
+use Jolicht\DogadoUser\UserId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,31 +18,33 @@ use PHPUnit\Framework\TestCase;
  */
 class JsonWebTokenPayloadTest extends TestCase
 {
-    private User $user;
-    private Client $client;
     private Tenant $tenant;
+    private Client $client;
+    private User $user;
     private JsonWebTokenPayload $payload;
 
     protected function setUp(): void
     {
         $this->tenant = new Tenant(
-            'ae09033e-0e3f-46d5-a425-301cea666669',
-            'testCode',
-            'testName',
+            id: TenantId::create(),
+            code: 'testCode',
+            name: 'testName'
         );
 
         $this->client = new Client(
-            'bd7ffd18-ed65-4dcc-b931-26bacde5e280',
-            'testCode',
-            'testName',
-            $this->tenant
+            id: ClientId::create(),
+            code: 'testCode',
+            name: 'testName',
+            tenant: $this->tenant
         );
+
         $this->user = new User(
-            '316bafbb-f2fc-4190-a439-2c366ed0c470',
-            'testName',
-            [],
-            $this->client
+            id: UserId::create(),
+            name: 'testName',
+            roles: ['ROLE_USER'],
+            client: $this->client
         );
+
         $this->payload = new JsonWebTokenPayload('testSubject', $this->user);
     }
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace JWT;
 
-use Jolicht\DogadoJwtBundle\JWT\Client;
 use Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayload;
 use Jolicht\DogadoJwtBundle\JWT\JsonWebTokenPayloadFactory;
-use Jolicht\DogadoJwtBundle\JWT\User;
+use Jolicht\DogadoUser\Client;
+use Jolicht\DogadoUser\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,18 +40,18 @@ class JsonWebTokenPayloadFactoryTest extends TestCase
 
         $user = $payload->getUser();
         $this->assertInstanceOf(User::class, $user);
-        $this->assertSame('da0a0dfa-919b-42f1-935e-1454b44b2a1a', $user->getId());
+        $this->assertSame('da0a0dfa-919b-42f1-935e-1454b44b2a1a', $user->getId()->toString());
         $this->assertSame('test', $user->getName());
         $this->assertSame(['ROLE_USER'], $user->getRoles());
 
         $client = $user->getClient();
         $this->assertInstanceOf(Client::class, $client);
-        $this->assertSame('ea686b7f-4789-4ff4-b589-116a92e827fc', $client->getId());
+        $this->assertSame('ea686b7f-4789-4ff4-b589-116a92e827fc', $client->getId()->toString());
         $this->assertSame('cloudpit', $client->getCode());
         $this->assertSame('CloudPit', $client->getName());
 
         $tenant = $client->getTenant();
-        $this->assertSame('e07240fd-8984-4491-a7a2-61a881ddb991', $tenant->getId());
+        $this->assertSame('e07240fd-8984-4491-a7a2-61a881ddb991', $tenant->getId()->toString());
         $this->assertSame('dogado', $tenant->getCode());
         $this->assertSame('dogado GmbH', $tenant->getName());
     }

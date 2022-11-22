@@ -2,8 +2,8 @@
 
 namespace Security;
 
-use Jolicht\DogadoJwtBundle\JWT\User;
 use Jolicht\DogadoJwtBundle\Security\UserProvider;
+use Jolicht\DogadoUser\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -34,5 +34,11 @@ class UserProviderTest extends TestCase
     public function testSupportsClassIsNotDogadoJWTUserReturnsFalse(): void
     {
         $this->assertFalse($this->userProvider->supportsClass(\stdClass::class));
+    }
+
+    public function testLoadUserByIdentifierThrowsNotImplementedExeption(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->userProvider->loadUserByIdentifier('testIdentifier');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jolicht\DogadoJwtBundle\JWT;
 
+use Jolicht\DogadoUser\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Webmozart\Assert\Assert;
 
@@ -42,7 +43,7 @@ final class JsonWebTokenPayloadFactory implements PayloadFactory
 
         return new JsonWebTokenPayload(
             subject: (string) $payloadContent['sub'],
-            user: User::fromArray($payloadContent['user'])
+            user: User::fromPayload($payloadContent['user'])
         );
     }
 }

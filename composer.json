@@ -21,7 +21,8 @@
         "phpunit/phpunit": "^9.5",
         "webmozart/assert": "^1.11",
         "symfony/yaml": "^6.1",
-        "symfony/security-bundle": "^6.1"
+        "symfony/security-bundle": "^6.1",
+        "jolicht/dogado-user": "^1.0"
     },
     "scripts": {
         "test": "./vendor/bin/phpunit",
